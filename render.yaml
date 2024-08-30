@@ -31,7 +31,7 @@ services:
       - key: POSTGRES_DB
         value: tu_bd_postgres
 
-  - type: database
+  - type: web
     name: levis-db
     env: docker
     plan: free
