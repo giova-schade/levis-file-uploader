@@ -1,0 +1,55 @@
+services:
+  - type: web
+    name: levis-frontend
+    env: docker
+    plan: free
+    repo: https://github.com/giova-schade/levis-file-uploader
+    branch: main
+    dockerfilePath: ""
+    buildCommand: docker-compose build frontend
+    startCommand: docker-compose up frontend
+    envVars:
+      - key: WEBAPP_STORAGE_HOME
+        value: /mnt/data
+
+  - type: web
+    name: levis-backend
+    env: docker
+    plan: free
+    repo: https://github.com/giova-schade/levis-file-uploader
+    branch: main
+    dockerfilePath: ""
+    buildCommand: docker-compose build backend
+    startCommand: docker-compose up backend
+    envVars:
+      - key: WEBAPP_STORAGE_HOME
+        value: /mnt/data
+      - key: POSTGRES_USER
+        value: tu_usuario_postgres
+      - key: POSTGRES_PASSWORD
+        value: tu_contraseña_postgres
+      - key: POSTGRES_DB
+        value: tu_bd_postgres
+
+  - type: database
+    name: levis-db
+    env: docker
+    plan: free
+    repo: https://github.com/giova-schade/levis-file-uploader
+    branch: main
+    dockerfilePath: ""
+    buildCommand: ""
+    startCommand: docker-compose up db
+    envVars:
+      - key: WEBAPP_STORAGE_HOME
+        value: /mnt/data
+      - key: POSTGRES_USER
+        value: tu_usuario_postgres
+      - key: POSTGRES_PASSWORD
+        value: tu_contraseña_postgres
+      - key: POSTGRES_DB
+        value: tu_bd_postgres
+
+networks:
+  - name: app-network
+    driver: bridge
