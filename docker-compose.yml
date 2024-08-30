@@ -31,7 +31,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ${WEBAPP_STORAGE_HOME}/pgdata:/var/lib/postgresql/data
-      - ./backend/sql:/docker-entrypoint-initdb.d
+      - ${WEBAPP_STORAGE_HOME}/sql:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
