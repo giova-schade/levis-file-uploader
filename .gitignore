@@ -1,0 +1,42 @@
+# Ignorar archivos de configuración de entorno
+.env
+
+# Ignorar dependencias de Node.js
+node_modules/
+
+# Ignorar archivos de logs
+logs/
+*.log
+
+# Ignorar archivos de bases de datos locales
+*.sqlite3
+*.db
+
+# Ignorar caché de Python
+__pycache__/
+*.py[cod]
+
+# Ignorar archivos de compilación de Docker
+Dockerfile
+
+# Ignorar configuraciones específicas de VSCode
+.vscode/
+
+# Ignorar archivos de sistema macOS
+.DS_Store
+
+# Dependencias de Node.js
+node_modules/
+
+# Directorio de compilación
+dist/
+
+# Archivos de entorno
+.venv
+
+# Archivos de configuración específicos del editor
+.vscode/
+.idea/
+
+venv/
+.angular

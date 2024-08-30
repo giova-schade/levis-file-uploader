@@ -1,0 +1,263 @@
+<p-toast></p-toast>
+<p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+
+<p-toolbar styleClass="mb-4 custom-toolbar">
+  <div class="p-toolbar-group-left">
+    <button *ngIf="!isNewProject" pButton type="button" label="Actualizar Proyecto" icon="pi pi-save"
+      class="p-button-info" (click)="updateProject()"></button>
+
+    <button *ngIf="isNewProject" pButton type="button" label="Crear Proyecto" class="p-button-success"
+      (click)="createProject()"></button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton type="button" label="Volver a la página principal" icon="pi pi-arrow-left" class="p-button-warning"
+      (click)="goBack()"></button>
+  </div>
+</p-toolbar>
+
+<!-- Main Content -->
+<div class="grid">
+  <!-- Panel de Información del Proyecto -->
+  <div class="col-12 lg:col-6">
+    <div class="grid">
+      <!-- Información del Proyecto -->
+      <div class="col-12">
+        <div class="card">
+          <h5>Información del Proyecto</h5>
+
+          <!-- Formulario cuando el proyecto es nuevo -->
+          <ng-container *ngIf="isNewProject; else projectInfo">
+            <div class="grid">
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <label for="nombreProyecto"><strong>Nombre del Proyecto:</strong></label>
+                </div>
+              </div>
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <input pInputText id="nombreProyecto" [(ngModel)]="projectData.nombre_proyecto"
+                    (input)="projectData.nombre_proyecto = $event.target.value.toLowerCase()"
+                    placeholder="Ingrese el nombre del proyecto" />
+                </div>
+              </div>
+
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <label for="nombreTabla"><strong>Tabla Asociada:</strong></label>
+                </div>
+              </div>
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <input pInputText id="nombreTabla" [(ngModel)]="projectData.nombre_tabla"
+                    (input)="projectData.nombre_tabla = $event.target.value.toLowerCase()"
+                    placeholder="Ingrese el nombre de la tabla asociada" />
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Información del proyecto cuando no es nuevo -->
+          <ng-template #projectInfo>
+            <div class="grid">
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <label><strong>Nombre del Proyecto:</strong></label>
+                </div>
+              </div>
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <p>{{ projectData?.nombre_proyecto }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <label><strong>Tabla Asociada:</strong></label>
+                </div>
+              </div>
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <p>{{ projectData?.tabla_asociada?.nombre_tabla }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <label><strong>Creado/Modificado por:</strong></label>
+                </div>
+              </div>
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <p>{{ projectData?.creado_modificado_por }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <label><strong>Fecha de Creación:</strong></label>
+                </div>
+              </div>
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <p>{{ projectData?.fecha_creacion | date: 'dd/MM/yyyy, HH:mm' }}</p>
+                </div>
+              </div>
+
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <label><strong>Última Actualización:</strong></label>
+                </div>
+              </div>
+              <div class="col-12 lg:col-6">
+                <div class="p-field">
+                  <p>{{ projectData?.fecha_actualizacion | date: 'dd/MM/yyyy, HH:mm' }}</p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Carga del Archivo CSV -->
+      <div class="col-12" *ngIf="isNewProject">
+        <div class="card">
+          <h5>Cargar Archivo CSV</h5>
+          <div class="p-field">
+            <label for="archivoCSV"></label>
+            <file-pond #myPond [options]="pondOptions" [files]="pondFiles" (oninit)="pondHandleInit()"
+              (onaddfile)="pondHandleAddFile($event)" (onprocessfile)="pondHandleProcessFile($event)"
+              (onprocessfileerror)="pondHandleProcessFileError($event)"
+              (onactivatefile)="pondHandleActivateFile($event)" accept=".csv">
+            </file-pond>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Esquema del Proyecto en un Organization Chart -->
+  <div class="col-12 lg:col-6">
+    <div class="card">
+      <h5>Esquema del Proyecto</h5>
+      <p-organizationChart [value]="esquemaData" styleClass="organization-chart"></p-organizationChart>
+    </div>
+  </div>
+
+  <!-- Paneles de Esquemas y Validaciones -->
+  <div class="col-12 lg:col-6">
+    <div class="card">
+      <h5>Validaciones (JSON Editor)</h5>
+      <div id="jsoneditor-validations" style="height: 400px;"></div>
+      <button pButton type="button" label="Pantalla Completa" class="p-button-info" icon="pi pi-expand"
+        (click)="openValidationsDialog()"></button>
+    </div>
+  </div>
+
+  <div class="col-12 lg:col-6">
+    <div class="card">
+      <h5>Esquemas (JSON Editor)</h5>
+      <div id="jsoneditor-schema" style="height: 400px;"></div>
+      <button pButton type="button" label="Pantalla Completa" class="p-button-info" icon="pi pi-expand"
+        (click)="openSchemaDialog()"></button>
+    </div>
+  </div>
+
+  <!-- Visualización en Formato de Esquemas y Validaciones -->
+  <div class="col-12 lg:col-6">
+    <div class="card">
+      <h5>Informe de Validaciones</h5>
+      <p-accordion [multiple]="true">
+        <p-accordionTab *ngFor="let validation of projectData?.validaciones" [header]="validation.campo_nombre">
+
+          <p><strong>Regla:</strong> {{ validation.nombre_regla }}</p>
+
+          <!-- Recorre dinámicamente las propiedades del valor de la validación -->
+          <div *ngFor="let key of getKeys(validation.valor)">
+            <p *ngIf="validation.valor[key] !== undefined">
+              <strong>{{ key | titlecase }}:</strong> {{ validation.valor[key] }}
+            </p>
+          </div>
+
+          <p><strong>Mensaje de Error:</strong> {{ validation.mensaje_error }}</p>
+
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+
+
+  <div class="col-12 lg:col-6">
+    <div class="card">
+      <h5>Esquemas</h5>
+      <p-accordion>
+        <p-accordionTab *ngFor="let esquema of projectData?.esquemas" [header]="'Campo: ' + esquema.campo_nombre">
+          <div class="grid">
+            <div class="col-12">
+              <p><strong>Tipo de Dato:</strong> {{ esquema.tipo_dato }}</p>
+            </div>
+            <div class="col-12">
+              <p><strong>Requerido:</strong> {{ esquema.requerido ? 'Sí' : 'No' }}</p>
+            </div>
+            <div class="col-12" *ngIf="esquema.longitud_maxima">
+              <p><strong>Longitud Máxima:</strong> {{ esquema.longitud_maxima }}</p>
+            </div>
+            <div class="col-12">
+              <p><strong>Clave Primaria:</strong> {{ esquema.es_clave_primaria ? 'Sí' : 'No' }}</p>
+            </div>
+            <div class="col-12">
+              <p><strong>Único:</strong> {{ esquema.es_unico ? 'Sí' : 'No' }}</p>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+
+
+  <!-- Segunda Fila con la Tabla de Datos -->
+  <div *ngIf="validationErrors.length > 0" class="col-12">
+    <div class="card">
+      <div class="flex justify-content-between align-items-center mb-3">
+        <h5>Errores de Validación del Archivo CSV</h5>
+      </div>
+      <p-table [value]="validationErrors" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="fila">Fila <p-sortIcon field="fila"></p-sortIcon></th>
+            <th pSortableColumn="campo">Campo <p-sortIcon field="campo"></p-sortIcon></th>
+            <th pSortableColumn="valor_incorrecto">Valor Incorrecto <p-sortIcon field="valor_incorrecto"></p-sortIcon>
+            </th>
+            <th pSortableColumn="mensaje_error">Mensaje de Error <p-sortIcon field="mensaje_error"></p-sortIcon></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-error>
+          <tr>
+            <td>{{ error.fila }}</td>
+            <td>{{ error.campo }}</td>
+            <td>{{ error.valor_incorrecto }}</td>
+            <td>{{ error.mensaje_error }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Error Handling: Display a message if projectData is null after loading -->
+<div *ngIf="!loading && !projectData">
+  <p class="text-center p-error">No se pudo cargar la información del proyecto. Intente nuevamente.</p>
+</div>
+
+<!-- Diálogos para Pantalla Completa -->
+<p-dialog header="Editor de Validaciones" [(visible)]="displayValidationsDialog" [modal]="true"
+  [style]="{ width: '90vw', height: '80vh' }" (onHide)="closeValidationsDialog()">
+  <div id="jsoneditor-validations-fullscreen" style="height: 100%;"></div>
+</p-dialog>
+
+<p-dialog header="Editor de Esquemas" [(visible)]="displaySchemaDialog" [modal]="true"
+  [style]="{ width: '90vw', height: '80vh' }" (onHide)="closeSchemaDialog()">
+  <div id="jsoneditor-schema-fullscreen" style="height: 100%;"></div>
+</p-dialog>

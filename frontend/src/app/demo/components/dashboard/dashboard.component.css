@@ -1,0 +1,84 @@
+::ng-deep .p-progressbar .p-progressbar-value {
+    background-color: #f44336 !important;
+}
+
+::ng-deep .p-progressbar {
+    height: 8px;
+}
+
+
+h5 {
+    font-size: 1rem; 
+    margin-bottom: 0.5rem;
+}
+
+p {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin-bottom: 0.3rem;
+}
+
+.card {
+    padding: 1rem;
+}
+
+.grid .col-12 {
+    margin-bottom: 1.5rem;
+}
+::ng-deep .small-organization-chart .ui-organizationchart-node-content {
+    font-size: 0.75rem; 
+    padding: 4px;
+    max-width: 100%; 
+    text-align: center; 
+}
+
+::ng-deep .small-organization-chart .ui-organizationchart-node {
+    max-width: 120px; 
+    word-wrap: break-word; 
+    white-space: normal; 
+    overflow: hidden; 
+    padding: 0;
+}
+
+::ng-deep .small-organization-chart .ui-organizationchart-node-content .ui-button-icon {
+    font-size: 0.7rem; 
+}
+
+::ng-deep .small-organization-chart .ui-organizationchart .ui-organizationchart-line {
+    border-color: #ccc;
+}
+
+.card .small-organization-chart {
+    overflow-x: auto; 
+    padding: 0;
+}
+
+.organization-chart-scroll {
+    max-height: 300px;
+    max-width: 100%; 
+    overflow: auto; 
+    padding: 5px; 
+}
+
+::ng-deep .small-organization-chart {
+    display: inline-block; 
+    white-space: nowrap; 
+}
+
+
+
+::ng-deep .p-table {
+    font-size: 0.875rem; 
+    width: 100%;
+}
+
+::ng-deep .p-table th, ::ng-deep .p-table td {
+    padding: 8px; 
+    text-align: left; 
+}
+
+::ng-deep .p-table td {
+    word-wrap: break-word;
+    white-space: normal;
+}
+

@@ -1,0 +1,25 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="https://www.levi.cl/">
+        <img src="assets/layout/images/logo.svg" alt="logo">
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+
+        <button class="p-link layout-topbar-button initials-button" (click)="showOverlay($event, op)">
+            <div class="user-initials" *ngIf="initials">{{ initials }}</div>
+        </button>
+        <p-overlayPanel #op [style]="{width: '200px'}">
+            <div class="logout-container">
+                <button pButton label="Cerrar Sesión" icon="pi pi-sign-out" class="p-button-danger p-button-text" (click)="logout()"></button>
+            </div>
+        </p-overlayPanel>
+    </div>
+</div>

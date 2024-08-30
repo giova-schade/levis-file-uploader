@@ -1,0 +1,87 @@
+<p-toast></p-toast>
+<p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+
+<p-toolbar styleClass="mb-4 custom-toolbar">
+  <div class="p-toolbar-group-left">
+    <p-dropdown
+      [options]="projectOptions"
+      [(ngModel)]="selectedProjectId"
+      placeholder="Seleccione un Proyecto"
+      (onChange)="onProjectSelect($event)">
+    </p-dropdown>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton label="Crear Nuevo Proyecto" icon="pi pi-plus" class="p-button-success" (click)="navigateToNewProject()"></button>
+  </div>
+</p-toolbar>
+
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <div style="max-height: 400px; max-width: 100%; overflow: auto;">
+        <p-table
+          *ngIf="selectedProject"
+          [value]="selectedProject?.tabla_asociada?.datos"
+          [paginator]="true"
+          [rows]="10"
+          [responsiveLayout]="'scroll'"
+          [filterDelay]="500">
+          
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let header of tableHeaders">
+                {{ header }}
+                <p-columnFilter field="{{header}}" matchMode="contains"></p-columnFilter>
+              </th>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-rowData>
+            <tr>
+              <td *ngFor="let header of tableHeaders">{{ rowData[header] }}</td>
+            </tr>
+          </ng-template>
+          
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card">
+      <file-pond #myPond
+        [options]="pondOptions"
+        [files]="pondFiles"
+        (oninit)="pondHandleInit()"
+        (onaddfile)="pondHandleAddFile($event)"
+        (onactivatefile)="pondHandleActivateFile($event)"
+        accept=".csv">
+      </file-pond>
+    </div>
+  </div>
+
+    <!-- Error Table for Validation Errors -->
+  <div class="col-12" *ngIf="uploadErrors.length > 0">
+    <div class="card">
+      <h5>Errores de Validación en la Carga del Archivo</h5>
+      <p-table [value]="uploadErrors">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Fila</th>
+            <th>Campo</th>
+            <th>Valor Incorrecto</th>
+            <th>Mensaje de Error</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-error>
+          <tr>
+            <td>{{ error.fila }}</td>
+            <td>{{ error.campo }}</td>
+            <td>{{ error.valor_incorrecto }}</td>
+            <td>{{ error.mensaje_error }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

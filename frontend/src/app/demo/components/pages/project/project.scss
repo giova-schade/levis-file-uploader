@@ -1,0 +1,39 @@
+
+#jsoneditor-schema, #jsoneditor-validations {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.custom-toolbar {
+    background-color: #f4f4f4;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+  
+    .p-button {
+      margin-right: 1rem;
+    }
+  
+    .p-button-info {
+      background-color: #00BFFF; /* Light blue */
+      border-color: #00BFFF;
+    }
+  
+    .p-button-info:hover {
+      background-color: #009ACD; /* Slightly darker blue */
+      border-color: #009ACD;
+    }
+  
+    .p-button-warning {
+      background-color: #FFA07A; /* Light orange */
+      border-color: #FFA07A;
+    }
+  
+    .p-button-warning:hover {
+      background-color: #FF7F50; /* Slightly darker orange */
+      border-color: #FF7F50;
+    }
+  }
+  
+  .ace_editor .ace_logo {
+    display: none !important;
+}
